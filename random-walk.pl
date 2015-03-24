@@ -2,17 +2,22 @@ use strict;
 
 #simulate the distribution P(X) = 0.25, where X:[left, right, down, up].
 use constant {
+	#directions
 	LEFT => 0,
 	RIGHT => 1,
 	UP => 2,
 	DOWN => 3,
+	#state of a cell in the grid: clean or contaminant
 	CLEAN => 0,
 	CONM => 1,
+	#state of a random walker after a run: infected or healthy
 	HEALTHY => 0,
 	INFECTED => 1,
-	PARAM_NGRID => "ngrid",
-	PARAM_NSTEP => "nstep",
-	PARAM_NCONM => "nconm",
+	#command line parameters
+	PARAM_NGRID => "ngrid", # # of rows or columns for the grid
+	PARAM_NSTEP => "nstep", # # of moves to take for a random walk run
+	PARAM_NCONM => "nconm", # # of contaminant cells in the grid
+	PARAM_NITR => "nitr",   # # of iterations to run in order to get the probability
 };
 
 my $ngrid = 100;
@@ -36,6 +41,10 @@ if ($#ARGV > 0) {
 			if ($1 eq PARAM_NCONM) {
 				$nconm = int($2);
 			}
+
+			if ($1 eq PARAM_NITR) {
+			    $nitr = int($2);
+			}
 		}
 	}
 }
@@ -53,7 +62,7 @@ sub rand_g (;$) {
 
 #randomly determine where the next moves
 sub next_move {
-	#this is a little bit tricky, it depends on the special values for LEFT, RIGHT, UP, DOWN
+	#this is a little bit tricky, for it depends on the special values for LEFT, RIGHT, UP, DOWN
 	return  int(4 * rand_g());
 	# given($ret) {
 	# 	when($_ >= 0 and $_ < 0.25) { return LEFT; }
