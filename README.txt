@@ -10,7 +10,7 @@
 			4) nitr: # of trials or iterations, default is 200.
 		*You can run the script like this:
 			perl -w random-walk.pl (all default arguments are used)
-			perl -w random-walk.pl ngrid=200 nstep=150 nconm=100 nitr=400 (each iteration/trial takes 150 moves on a 200*200 grid with 150 contaminants, and run 400 iteration to obtain the estimate probability)
+			perl -w random-walk.pl ngrid=200 nstep=150 nconm=100 nitr=400 (each iteration/trial takes 150 moves on a 200*200 grid with 150 contaminants, and run 400 iterations to obtain the estimated probability)
 		*The result of script output looks like(infected probability is 0.21):
 			infected 	healthy
 			0.21 		0.79

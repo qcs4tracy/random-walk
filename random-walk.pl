@@ -1,6 +1,6 @@
 use strict;
 
-#simulate the distribution P(X) = 0.25, where X:[left, right, down, up].
+#Constants
 use constant {
 	#directions
 	LEFT => 0,
@@ -60,9 +60,9 @@ sub rand_g (;$) {
 	return int(rand($range));
 }
 
-#randomly determine where the next moves
+#randomly determine the direction for the next move
 sub next_move {
-	#this is a little bit tricky, for it depends on the special values for LEFT, RIGHT, UP, DOWN
+	#this is a little bit tricky, for it depends on the special values arrangement of LEFT, RIGHT, UP and DOWN
 	return  int(4 * rand_g());
 	# given($ret) {
 	# 	when($_ >= 0 and $_ < 0.25) { return LEFT; }
@@ -78,7 +78,7 @@ sub next_move {
 #			$size: size of the grid (# of row or column)
 #			$nc: number of cells contaminated randomly
 sub init_grid ($$) {
-	#only care about the first parameters
+	#only care about the first two parameters
 	my ($size, $nc) = @_;
 	my @grid = ();
 	
@@ -90,10 +90,9 @@ sub init_grid ($$) {
 	}
 
 	my ($x, $y);
-	#randomly make $nc cells being contaminated 
+	#randomly make $nc cells become contaminated 
 	for (my $j = 0; $j < $nc; $j++) {
-		#prevent $ngrid from being generated, which is out of bound for the array index, or
-		#position ($x, $y) is already contaminated
+		#if position ($x, $y) is already contaminated, select another position.
 		do {
 			($x, $y) = rand_2d($ngrid);
 		} while ($grid[$x]->[$y] == CONM);
@@ -165,14 +164,14 @@ sub random_walk($@) {
 				next;
 			}
 			$y--;
-		} else {
+		} else {	# $direction == DOWN
 			if ($y+1 > $#grid_map) {
 				$move_cnt--;
 				next;
 			}
 			$y++;
 		}
-		#check if the cell moved in is contaminated
+		#check if the cell walker moves in is contaminated
 		if ($grid_map[$x]->[$y] == CONM) {
 		 	return INFECTED;
 		 } 
@@ -184,11 +183,11 @@ sub random_walk($@) {
 
 #top level statements:
 my @gm = init_grid($ngrid, $nconm);
-my $state;
-my $ninfected = 0;
-my ($ratio_infect, $ratio_healthy);
+my $state; # state for the walker after one run
+my $ninfected = 0; # # of iterations resulting into infected state
+my ($ratio_infect, $ratio_healthy); # ratios (estimated probablities)
 
-#run $nitr iterations and calculate the ratio of both infected and healthy times
+#run $nitr iterations and calculate the ratio of both infected and healthy occurrences
 for (my $itr = 0; $itr < $nitr; $itr++) 
 {
 	$state = random_walk($nstep, @gm);
