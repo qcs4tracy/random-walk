@@ -1,6 +1,9 @@
 __author__ = 'Chusheng Qiu'
 import matplotlib
-matplotlib.use('TkAgg')
+import platform
+if platform.platform().lower().startswith('darwin'):
+    matplotlib.use('TkAgg')
+    
 from matplotlib import pyplot as plt
 import numpy as np
 import os
