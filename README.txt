@@ -28,7 +28,7 @@
 				-Infected & Healthy probabilty with different # of moves (both line chart and bar chart, and # of contaminants is set to 50)
 
 -Something to note:
-	Both figures will be plotted sequentially, so if you see the first figure and want the second, just
+	The source files are well documented and both figures will be plotted sequentially, so if you see the first figure and want the second, just
 	close the window and the second figure will appear in the next window.
 
 
